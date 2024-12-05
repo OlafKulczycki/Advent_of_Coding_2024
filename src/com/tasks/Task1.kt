@@ -2,8 +2,8 @@ package com.tasks
 
 class Task1 {
     //variables
-    private val list1: MutableList<Int> = mutableListOf()
-    private val list2: MutableList<Int> = mutableListOf()
+    val list1: MutableList<Int> = mutableListOf()
+    val list2: MutableList<Int> = mutableListOf()
     var distanceList = mutableListOf<Int>()
     //on init
     init {
@@ -41,8 +41,27 @@ class Task1 {
     fun sumOfDistances(list: List<Int>): Int {
         return list.sum()
     }
+    private fun countOccurrences(list1: List<Int>, list2: List<Int>): Map<Int, Int> {
+        val occurrences = mutableMapOf<Int, Int>()
+        for (number in list1) {
+            occurrences[number] = list2.count { it == number }
+        }
+        return occurrences
+    }
+    private fun similarityScore(map: Map<Int, Int>): Int {
+        var score = 0
+        for ((key, value) in map) {
+            score += key * value
+        }
+        return score
+    }
+    fun getSimilarityScore(list1: List<Int>, list2: List<Int>): Int {
+        val occurrences = countOccurrences(list1, list2)
+        return similarityScore(occurrences)
+    }
 }
 fun main() {
     val task = Task1()
     println("The total distance between the lists are ${task.sumOfDistances(task.distanceList)}")
+    println("The similarity score between the lists are ${task.getSimilarityScore(task.list1, task.list2)}")
 }
