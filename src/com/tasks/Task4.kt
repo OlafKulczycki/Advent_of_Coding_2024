@@ -8,6 +8,7 @@ private class Task4 {
     val horizontalCount = countHorizontal(rawInput)
     val diagonalCount = countDiagonal(rawInput)
     val verticalCount = countVertical(rawInput)
+    val masCount = countXMasPattern(rawInput)
     val maxCounts = horizontalCount + diagonalCount + verticalCount
 
     //functions
@@ -80,16 +81,37 @@ private class Task4 {
         return totalCount
     }
 
-    //init block
-    init {
-        println("Number of lines in rawInput: ${rawInput.size}")
+    fun countXMasPattern(input: List<String>): Int {
+        val n = input.size
+        val m = input[0].length
+        var count = 0
+
+        for (i in 0 until n - 2) {
+            for (j in 0 until m - 2) {
+                if ((input[i][j] == 'S' && input[i][j + 2] == 'S' && input[i + 1][j + 1] == 'A' &&
+                            input[i + 2][j] == 'M' && input[i + 2][j + 2] == 'M')) {
+                    count++
+                } else if ((input[i][j] == 'M' && input[i][j + 2] == 'M' && input[i + 1][j + 1] == 'A' &&
+                            input[i + 2][j] == 'S' && input[i + 2][j + 2] == 'S')) {
+                    count++
+                } else if ((input[i][j] == 'S' && input[i][j + 2] == 'M' && input[i + 1][j + 1] == 'A' &&
+                            input[i + 2][j] == 'S' && input[i + 2][j + 2] == 'M')) {
+                    count++
+                } else if ((input[i][j] == 'M' && input[i][j + 2] == 'S' && input[i + 1][j + 1] == 'A' &&
+                            input[i + 2][j] == 'M' && input[i + 2][j + 2] == 'S')) {
+                    count++
+                }
+            }
+        }
+
+        return count
     }
 }
 
 fun main() {
     val task = Task4()
-    println("Total count of horizontal 'xmas' or 'samx': ${task.horizontalCount}")
-    println("Total count of vertical 'xmas' or 'samx': ${task.verticalCount}")
-    println("Total count of diagonal 'xmas' or 'samx': ${task.diagonalCount}")
+    println("Reading the input file src/resources/input_task4")
+    println("Reading successful, counting the occurrences of 'XMAS' and 'SAMX' in all directions & X-Mas pattern")
     println("Total count of 'xmas' or 'samx' in all directions: ${task.maxCounts}")
+    println("Total count of X-Mas patterns: ${task.masCount}")
 }
